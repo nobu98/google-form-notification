@@ -1,5 +1,6 @@
 const path = require("path");
 const GasPlugin = require("gas-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   mode: "development",
@@ -27,5 +28,14 @@ module.exports = {
       },
     ],
   },
-  plugins: [new GasPlugin()],
+  plugins: [
+    new GasPlugin(),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, "appsscript.json"),
+        },
+      ],
+    }),
+  ],
 };
