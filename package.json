@@ -1,0 +1,27 @@
+{
+  "scripts": {
+    "lint": "eslint '**/*.ts' && prettier --check '**/*.{js,ts,json}'",
+    "test": "jest --watchAll",
+    "test:ci": "jest --ci"
+  },
+  "devDependencies": {
+    "@types/google-apps-script": "^1.0.45",
+    "@types/jest": "^27.4.1",
+    "@typescript-eslint/eslint-plugin": "^5.17.0",
+    "@typescript-eslint/parser": "^5.17.0",
+    "eslint": "^8.12.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.25.4",
+    "jest": "^27.5.1",
+    "jest-mock-extended": "^2.0.4",
+    "prettier": "^2.6.1",
+    "ts-jest": "^27.1.4",
+    "typescript": "^4.6.3"
+  },
+  "dependencies": {
+    "axios": "^0.26.1",
+    "axios-logger": "^2.6.0",
+    "extensible-custom-error": "^0.0.7",
+    "handlebars": "^4.7.7"
+  }
+}
