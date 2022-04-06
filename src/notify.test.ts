@@ -1,5 +1,5 @@
 import * as client from "./chatwork";
-import { notify } from "./index";
+import { notify } from "./notify";
 
 describe(notify.name, () => {
   beforeEach(() => {

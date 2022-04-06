@@ -1,26 +1,34 @@
 {
   "scripts": {
+    "build": "webpack",
     "lint": "eslint '**/*.ts' && prettier --check '**/*.{js,ts,json}'",
     "test": "jest --watchAll",
     "test:ci": "jest --ci"
   },
   "devDependencies": {
+    "@babel/core": "^7.17.8",
+    "@babel/preset-typescript": "^7.16.7",
     "@types/google-apps-script": "^1.0.45",
     "@types/jest": "^27.4.1",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.4.2",
+    "babel-loader": "^8.2.4",
     "eslint": "^8.12.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.25.4",
+    "gas-webpack-plugin": "^2.2.1",
     "jest": "^27.5.1",
     "jest-mock-extended": "^2.0.4",
     "prettier": "^2.6.1",
     "ts-jest": "^27.1.4",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.3",
+    "webpack": "^5.71.0",
+    "webpack-cli": "^4.9.2"
   },
   "dependencies": {
     "axios": "^0.26.1",
-    "axios-logger": "^2.6.0",
     "extensible-custom-error": "^0.0.7",
     "handlebars": "^4.7.7"
   }

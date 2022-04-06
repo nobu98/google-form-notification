@@ -1,5 +1,4 @@
 import axios from "axios";
-import { requestLogger, responseLogger } from "axios-logger";
 import ExtensibleCustomError from "extensible-custom-error";
 
 export class NotificationError extends ExtensibleCustomError {}
@@ -16,8 +15,6 @@ export const chatwork = (
     },
     timeout: 1000,
   });
-  client.interceptors.request.use(requestLogger);
-  client.interceptors.response.use(responseLogger);
 
   const sendMessage = async (roomId: string, body: string) => {
     try {
