@@ -1,5 +1,6 @@
 import { chatwork } from "./chatwork";
 import template from "./template";
+import environments from "./environments.json";
 
 // 問い合わせフォーム
 interface ContactForm {
@@ -9,8 +10,6 @@ interface ContactForm {
 }
 
 export async function notify({ namedValues }: { namedValues: ContactForm }) {
-  if (!process.env.CHATWORK_ROOM_ID)
-    throw Error("ルームIDが指定されていません。");
   const { sendMessage } = chatwork();
-  await sendMessage(process.env.CHATWORK_ROOM_ID, template(namedValues));
+  await sendMessage(environments.CHATWORK_ROOM_ID, template(namedValues));
 }

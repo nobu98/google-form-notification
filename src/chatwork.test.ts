@@ -2,29 +2,30 @@ import axios, { AxiosInstance } from "axios";
 import { mockDeep } from "jest-mock-extended";
 import { chatwork, NotificationError } from "./chatwork";
 
+jest.mock(
+  "./environments.json",
+  () => ({
+    CHATWORK_API_TOKEN: "hoge",
+  }),
+  { virtual: true }
+);
+
 describe(chatwork.name, () => {
   beforeEach(() => {
-    delete process.env.CHATWORK_API_TOKEN;
     jest.clearAllMocks();
   }),
-    it("初期化チェック: パラメータ指定なし/ENV値なし", () => {
+    it("初期化チェック: パラメータ指定なし", () => {
       const create = jest.spyOn(axios, "create");
-      expect(() => chatwork()).toThrow("API TOKENが指定されていません。");
-      expect(create).toBeCalledTimes(0);
+      chatwork();
+      expect(create).toBeCalledTimes(1);
+      expect(create).toBeCalledWith({
+        baseURL: "https://api.chatwork.com/v2",
+        headers: {
+          "X-CHatWork-Token": "hoge",
+        },
+        timeout: 1000,
+      });
     });
-  it("初期化チェック: パラメータ指定なし/ENV値あり", () => {
-    process.env.CHATWORK_API_TOKEN = "hoge";
-    const create = jest.spyOn(axios, "create");
-    chatwork();
-    expect(create).toBeCalledTimes(1);
-    expect(create).toBeCalledWith({
-      baseURL: "https://api.chatwork.com/v2",
-      headers: {
-        "X-CHatWork-Token": "hoge",
-      },
-      timeout: 1000,
-    });
-  });
   it("初期化チェック: パラメータ指定あり", () => {
     const create = jest.spyOn(axios, "create");
     chatwork("https://api.chatwork.com/v1", "fuga");
@@ -38,7 +39,6 @@ describe(chatwork.name, () => {
     });
   });
   it("チャット投稿: 正常系", async () => {
-    process.env.CHATWORK_API_TOKEN = "hoge";
     const create = jest.spyOn(axios, "create");
     const instance = mockDeep<AxiosInstance>();
     instance.post.mockResolvedValue({ data: { message_id: "ABCDE" } });
@@ -51,7 +51,6 @@ describe(chatwork.name, () => {
     expect(result.message_id).toBe("ABCDE");
   });
   it("チャット投稿: 異常系", async () => {
-    process.env.CHATWORK_API_TOKEN = "hoge";
     const create = jest.spyOn(axios, "create");
     const instance = mockDeep<AxiosInstance>();
     const axiosError = new Error();

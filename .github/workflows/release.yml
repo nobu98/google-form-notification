@@ -26,6 +26,15 @@ jobs:
       - uses: actions/setup-node@v2-beta
         with:
           node-version: "14"
+      - name: Create ./src/environments.json
+        run: |
+          echo $(cat <<-EOS
+          {
+            "CHATWORK_API_TOKEN": "${CHATWORK_API_TOKEN}",
+            "CHATWORK_ROOM_ID": "${CHATWORK_ROOM_ID}"
+          }
+          EOS
+          ) > ./src/environments.json
 
       - id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -38,17 +47,6 @@ jobs:
             ${{ runner.os }}-yarn-
       - run: yarn install --frozen-lockfile
       - run: yarn build
-
-      # ステージはない想定
-      # 参考: https://medium.com/@jorn.verhaegen/environment-variables-with-google-app-engine-and-ci-cd-pipelines-e28b2c038a95
-      - name: Create ./dist/app.yaml
-        run: |
-          echo $(cat <<-EOS
-          env_variables:
-            CHATWORK_API_TOKEN: "${CHATWORK_API_TOKEN}"
-            CHATWORK_ROOM_ID: "${CHATWORK_ROOM_ID}"
-          EOS
-          ) > ./dist/app.yaml
 
       - name: Create ~/.clasprc.json
         run: |

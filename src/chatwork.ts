@@ -1,13 +1,13 @@
 import axios from "axios";
 import ExtensibleCustomError from "extensible-custom-error";
+import environments from "./environments.json";
 
 export class NotificationError extends ExtensibleCustomError {}
 
 export const chatwork = (
   baseURL = "https://api.chatwork.com/v2",
-  token = process.env.CHATWORK_API_TOKEN || ""
+  token = environments.CHATWORK_API_TOKEN
 ) => {
-  if (!token) throw new Error("API TOKENが指定されていません。");
   const client = axios.create({
     baseURL,
     headers: {
