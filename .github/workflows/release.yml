@@ -42,7 +42,7 @@ jobs:
 
       - run: yarn build
 
-      - name: Create ~/.clasprc.json
+      - name: Create ./dist/.clasprc.json
         run: |
           echo $(cat <<-EOS
           {
@@ -62,18 +62,18 @@ jobs:
             "isLocalCreds": false
           }
           EOS
-          ) > ~/dist/.clasprc.json
+          ) > ./dist/.clasprc.json
       # ステージはない想定
       # 参考: https://medium.com/@jorn.verhaegen/environment-variables-with-google-app-engine-and-ci-cd-pipelines-e28b2c038a95
-      - name: Create ~/app.yaml
+      - name: Create ./dist/app.yaml
         run: |
           echo $(cat <<-EOS
           env_variables:
             CHATWORK_API_TOKEN: "${CHATWORK_API_TOKEN}"
             CHATWORK_ROOM_ID: "${CHATWORK_ROOM_ID}"
           EOS
-          ) > ~/dist/app.yaml
-      - name: Create ~/.clasp.json
+          ) > ./dist/app.yaml
+      - name: Create ./dist/.clasp.json
         run: |
           echo $(cat <<-EOS
           {
@@ -81,7 +81,7 @@ jobs:
             "rootDir": "./dist"
           }
           EOS
-          ) > ~/dist/.clasp.json
+          ) > ./dist/.clasp.json
       - name: Get version
         id: get_version
         run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
