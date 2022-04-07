@@ -22,7 +22,7 @@ export const chatwork = (
         `${roomId}/messages`,
         undefined,
         {
-          params: { body },
+          params: { body: encodeURIComponent(body) },
         }
       );
       return response.data;
