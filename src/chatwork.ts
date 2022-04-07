@@ -1,4 +1,5 @@
 import axios from "axios";
+import adapter from "axios/lib/adapters/xhr";
 import ExtensibleCustomError from "extensible-custom-error";
 import environments from "./environments.json";
 
@@ -8,7 +9,9 @@ export const chatwork = (
   baseURL = "https://api.chatwork.com/v2",
   token = environments.CHATWORK_API_TOKEN
 ) => {
+  // hack: https://github.com/axios/axios/issues/2968
   const client = axios.create({
+    adapter, // https://github.com/axios/axios/issues/2968
     baseURL,
     headers: {
       "X-ChatWorkToken": token,

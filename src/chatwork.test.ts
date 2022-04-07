@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from "axios";
+import adapter from "axios/lib/adapters/xhr";
 import { mockDeep } from "jest-mock-extended";
 import { chatwork, NotificationError } from "./chatwork";
 
@@ -19,9 +20,10 @@ describe(chatwork.name, () => {
       chatwork();
       expect(create).toBeCalledTimes(1);
       expect(create).toBeCalledWith({
+        adapter,
         baseURL: "https://api.chatwork.com/v2",
         headers: {
-          "X-CHatWork-Token": "hoge",
+          "X-ChatWorkToken": "hoge",
         },
         timeout: 1000,
       });
@@ -31,9 +33,10 @@ describe(chatwork.name, () => {
     chatwork("https://api.chatwork.com/v1", "fuga");
     expect(create).toBeCalledTimes(1);
     expect(create).toBeCalledWith({
+      adapter,
       baseURL: "https://api.chatwork.com/v1",
       headers: {
-        "X-CHatWork-Token": "fuga",
+        "X-ChatWorkToken": "fuga",
       },
       timeout: 1000,
     });
@@ -44,8 +47,8 @@ describe(chatwork.name, () => {
     instance.post.mockResolvedValue({ data: { message_id: "ABCDE" } });
     create.mockReturnValue(instance);
     const { sendMessage } = chatwork();
-    const result = await sendMessage("room", "message text");
-    expect(instance.post).toBeCalledWith("room/messages", undefined, {
+    const result = await sendMessage("room_id", "message text");
+    expect(instance.post).toBeCalledWith("/rooms/room_id/messages", undefined, {
       params: { body: "message text" },
     });
     expect(result.message_id).toBe("ABCDE");
