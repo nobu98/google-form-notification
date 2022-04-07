@@ -11,7 +11,7 @@ export const chatwork = (
   const client = axios.create({
     baseURL,
     headers: {
-      "X-CHatWork-Token": token,
+      "X-ChatWorkToken": token,
     },
     timeout: 1000,
   });
