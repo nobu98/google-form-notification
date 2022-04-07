@@ -19,7 +19,7 @@ export const chatwork = (
   const sendMessage = async (roomId: string, body: string) => {
     try {
       const response = await client.post<{ message_id: string }>(
-        `/${roomId}/messages`,
+        `/rooms/${roomId}/messages`,
         undefined,
         {
           params: { body: body },
