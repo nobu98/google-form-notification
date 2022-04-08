@@ -1,5 +1,3 @@
-import axios from "axios";
-import adapter from "axios/lib/adapters/xhr";
 import ExtensibleCustomError from "extensible-custom-error";
 import environments from "./environments.json";
 
@@ -9,26 +7,18 @@ export const chatwork = (
   baseURL = "https://api.chatwork.com/v2",
   token = environments.CHATWORK_API_TOKEN
 ) => {
-  // hack: https://github.com/axios/axios/issues/2968
-  const client = axios.create({
-    adapter, // https://github.com/axios/axios/issues/2968
-    baseURL,
-    headers: {
-      "X-ChatWorkToken": token,
-    },
-    timeout: 1000,
-  });
-
-  const sendMessage = async (roomId: string, body: string) => {
+  const sendMessage = (roomId: string, body: string) => {
     try {
-      const response = await client.post<{ message_id: string }>(
-        `/rooms/${roomId}/messages`,
-        undefined,
+      const response = UrlFetchApp.fetch(
+        `${baseURL}/rooms/${roomId}/messages?body=${encodeURIComponent(body)}`,
         {
-          params: { body: body },
+          method: "post",
+          headers: {
+            "X-ChatWorkToken": token,
+          },
         }
       );
-      return response.data;
+      return JSON.parse(response.getContentText()) as { message_id: string };
     } catch (error) {
       throw new NotificationError(
         `Chatworkのフォーム通知(ルームID: ${roomId})に失敗しました。`,
