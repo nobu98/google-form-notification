@@ -3,11 +3,20 @@ import environments from "./environments.json";
 
 export class NotificationError extends ExtensibleCustomError {}
 
+// FIXME: 外に出したい気がする・・・
+const UserId = {
+  "杉本 康太さん": 111111,
+};
+
 export const chatwork = (
   baseURL = "https://api.chatwork.com/v2",
   token = environments.CHATWORK_API_TOKEN
 ) => {
-  const sendMessage = (roomId: string, body: string) => {
+  const sendMessage = (
+    roomId: string,
+    body: string,
+    mensiton: Array<string> = []
+  ) => {
     try {
       const response = UrlFetchApp.fetch(
         `${baseURL}/rooms/${roomId}/messages?body=${encodeURIComponent(body)}`,
